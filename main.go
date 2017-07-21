@@ -7,12 +7,6 @@ import (
 	"github.com/docktermj/go-logger/logger"
 )
 
-// Values updated via "go install -ldflags" parameters.
-
-var programName string = "unknown"
-var buildVersion string = "0.0.0"
-var buildIteration string = "0"
-
 func complexProcess() string {
 	time.Sleep(10 * time.Second)
 	return "slept"
@@ -20,44 +14,46 @@ func complexProcess() string {
 
 func main() {
 
-	//	log.SetFlags(log.Ldate | log.Lmicroseconds | log.LUTC)
+	// Configure the "log" standard library.
+
 	log.SetFlags(log.Llongfile | log.Ldate | log.Lmicroseconds | log.LUTC)
+
+	// Configure the logger. If not configured, no functions will print.
 
 	logger.SetLevel(logger.LevelInfo)
 
+	// Use the log and logger interchangeably
+
 	log.Println("Test Debug")
-	logger.Debug("debug works")
+	logger.Debug("debug prints")
 	logger.Debugf("debug A: %s B: %s C: %d", "aaa", "bbb", 35)
 
 	log.Println("Test Info")
-	logger.Info("info works")
+	logger.Info("info prints")
 	logger.Infof("info A: %s B: %s C: %d", "aaa", "bbb", 35)
 
 	log.Println("Test Warn")
-	logger.Warn("warn works")
+	logger.Warn("warn prints")
 	logger.Warnf("warn A: %s B: %s C: %d", "aaa", "bbb", 35)
 
 	log.Println("Test Error")
-	logger.Error("error works")
+	logger.Error("error prints")
 	logger.Errorf("error A: %s B: %s C: %d", "aaa", "bbb", 35)
 
-	// Test the efficiency of the logger
-	log.Println("Start timed test")
-	log.Printf("%s", complexProcess())
-	log.Println("1")
+	// Avoid long running logging when appropriate.
+
 	if logger.IsDebug() {
 		logger.Debugf("%s", complexProcess())
 	}
-	log.Println("Done")
 
 	// Note:  the first Fatal or Panic issued will exit the program.
 
 	log.Println("Test Fatal")
-	//	logger.Fatal("fatal works")
+	//	logger.Fatal("fatal prints")
 	//	logger.Fatalf("fatal A: %s B: %s C: %d", "aaa", "bbb", 35)
 
-	log.Println("Test Panicl")
-	//	logger.Fatal("fatal works")
+	log.Println("Test Panic")
+	//		logger.Fatal("fatal prints")
 	//	logger.Fatalf("fatal A: %s B: %s C: %d", "aaa", "bbb", 35)
 
 	log.Println("End")
