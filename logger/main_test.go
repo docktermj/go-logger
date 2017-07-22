@@ -2,6 +2,7 @@ package logger
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -105,4 +106,10 @@ func TestError(test *testing.T) {
 func TestFluentInterface(test *testing.T) {
 	SetLevel(LevelDebug)
 	Debug("debug").Info("info").Warn("warn").Error("error")
+}
+
+func TestVaradic(test *testing.T) {
+	SetLevel(LevelDebug)
+	_, err := time.LoadLocation("bob")
+	Info("Should be error: ", err)
 }

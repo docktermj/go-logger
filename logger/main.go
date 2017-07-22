@@ -37,6 +37,8 @@ type Logger struct {
 
 var logger *Logger
 
+const noFormat = ""
+
 func init() {
 	logger = New()
 }
@@ -50,8 +52,16 @@ func New() *Logger {
 // ----------------------------------------------------------------------------
 
 func (this *Logger) printf(debugLevelName string, format string, v ...interface{}) *Logger {
+	var message string
 	calldepth := 3
-	message := fmt.Sprintf(debugLevelName+" "+format, v...)
+	if format == noFormat {
+		v := append(v, 0)
+		copy(v[1:], v[0:])
+		v[0] = debugLevelName + " "
+		message = fmt.Sprint(v...)
+	} else {
+		message = fmt.Sprintf(debugLevelName+" "+format, v...)
+	}
 	log.Output(calldepth, message)
 	return this
 }
@@ -111,16 +121,16 @@ func (this *Logger) IsDebug() bool {
 
 // --- Debug ------------------------------------------------------------------
 
-func Debug(message string) *Logger {
+func Debug(v ...interface{}) *Logger {
 	if logger.IsDebug() {
-		logger.printf(LevelDebugName, "%s", message)
+		logger.printf(LevelDebugName, noFormat, v...)
 	}
 	return logger
 }
 
-func (this *Logger) Debug(message string) *Logger {
+func (this *Logger) Debug(v ...interface{}) *Logger {
 	if this.isDebug {
-		this.printf(LevelDebugName, "%s", message)
+		this.printf(LevelDebugName, noFormat, v...)
 	}
 	return this
 }
@@ -141,16 +151,16 @@ func (this *Logger) Debugf(format string, v ...interface{}) *Logger {
 
 // --- Info -------------------------------------------------------------------
 
-func Info(message string) *Logger {
+func Info(v ...interface{}) *Logger {
 	if logger.IsInfo() {
-		logger.printf(LevelInfoName, "%s", message)
+		logger.printf(LevelInfoName, noFormat, v...)
 	}
 	return logger
 }
 
-func (this *Logger) Info(message string) *Logger {
+func (this *Logger) Info(v ...interface{}) *Logger {
 	if this.isInfo {
-		this.printf(LevelInfoName, "%s", message)
+		this.printf(LevelInfoName, noFormat, v...)
 	}
 	return this
 }
@@ -171,16 +181,16 @@ func (this *Logger) Infof(format string, v ...interface{}) *Logger {
 
 // --- Warn -------------------------------------------------------------------
 
-func Warn(message string) *Logger {
+func Warn(v ...interface{}) *Logger {
 	if logger.IsWarn() {
-		logger.printf(LevelWarnName, "%s", message)
+		logger.printf(LevelWarnName, noFormat, v...)
 	}
 	return logger
 }
 
-func (this *Logger) Warn(message string) *Logger {
+func (this *Logger) Warn(v ...interface{}) *Logger {
 	if this.isWarn {
-		this.printf(LevelWarnName, "%s", message)
+		this.printf(LevelWarnName, noFormat, v...)
 	}
 	return this
 }
@@ -201,16 +211,16 @@ func (this *Logger) Warnf(format string, v ...interface{}) *Logger {
 
 // --- Error ------------------------------------------------------------------
 
-func Error(message string) *Logger {
+func Error(v ...interface{}) *Logger {
 	if logger.IsError() {
-		logger.printf(LevelErrorName, "%s", message)
+		logger.printf(LevelErrorName, noFormat, v...)
 	}
 	return logger
 }
 
-func (this *Logger) Error(message string) *Logger {
+func (this *Logger) Error(v ...interface{}) *Logger {
 	if this.isError {
-		this.printf(LevelErrorName, "%s", message)
+		this.printf(LevelErrorName, noFormat, v...)
 	}
 	return this
 }
@@ -231,17 +241,17 @@ func (this *Logger) Errorf(format string, v ...interface{}) *Logger {
 
 // --- Fatal ------------------------------------------------------------------
 
-func Fatal(message string) *Logger {
+func Fatal(v ...interface{}) *Logger {
 	if logger.IsFatal() {
-		logger.printf(LevelFatalName, "%s", message)
+		logger.printf(LevelFatalName, noFormat, v...)
 		log.Fatal("")
 	}
 	return logger
 }
 
-func (this *Logger) Fatal(message string) *Logger {
+func (this *Logger) Fatal(v ...interface{}) *Logger {
 	if this.isFatal {
-		this.printf(LevelFatalName, "%s", message)
+		this.printf(LevelFatalName, noFormat, v...)
 		log.Fatal("")
 	}
 	return this
@@ -265,17 +275,17 @@ func (this *Logger) Fatalf(format string, v ...interface{}) *Logger {
 
 // --- Panic ------------------------------------------------------------------
 
-func Panic(message string) *Logger {
+func Panic(v ...interface{}) *Logger {
 	if logger.IsPanic() {
-		logger.printf(LevelPanicName, "%s", message)
+		logger.printf(LevelPanicName, noFormat, v...)
 		log.Panic("")
 	}
 	return logger
 }
 
-func (this *Logger) Panic(message string) *Logger {
+func (this *Logger) Panic(v ...interface{}) *Logger {
 	if this.isPanic {
-		this.printf(LevelPanicName, "%s", message)
+		this.printf(LevelPanicName, noFormat, v...)
 		log.Panic("")
 	}
 	return this

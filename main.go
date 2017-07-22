@@ -58,6 +58,10 @@ func main() {
 	//		logger.Fatal("fatal prints")
 	//	logger.Fatalf("fatal A: %s B: %s C: %d", "aaa", "bbb", 35)
 
+	log.Println("Test varadic")
+	_, err := time.LoadLocation("bob")
+	logger.Info("Should be error: ", err)
+
 	log.Println("End")
 
 }
