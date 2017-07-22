@@ -7,6 +7,8 @@ import (
 	"github.com/docktermj/go-logger/logger"
 )
 
+var programName string = "go-logger"
+
 func complexProcess() string {
 	time.Sleep(10 * time.Second)
 	return "slept"

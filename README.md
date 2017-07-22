@@ -4,6 +4,8 @@ A simple facade over Go's "log" standard library.
 
 ### Features
 
+This facade:
+
 1. Adds level-based logging.
    1. Debug, Info, Warn, Error, Fatal, Panic 
 1. Adds log.Printf()-like formatting for each level.
