@@ -12,6 +12,8 @@ This facade:
    1. Debugf, Infof, Warnf, Errorf, Fatalf, Panicf
 1. Adds "guards" that can be used to conditionally run code
    1. IsDebug, IsInfo, IsWarn, IsError, IsFatal, IsPanic
+1. Implemented as [fluent interface](https://en.wikipedia.org/wiki/Fluent_interface)
+
 
 This facade writes to the Go `log` standard library,
 so `log` and `logger` functions can be used interchangeably.

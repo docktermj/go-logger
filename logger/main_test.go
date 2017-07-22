@@ -101,3 +101,8 @@ func TestError(test *testing.T) {
 	assert.NotZero(test, Error("test"), "string")
 	assert.NotZero(test, Errorf("test %s", "something"), "format")
 }
+
+func TestFluentInterface(test *testing.T) {
+	SetLevel(LevelDebug)
+	Debug("debug").Info("info").Warn("warn").Error("error")
+}
