@@ -9,7 +9,8 @@ import (
 type Level int
 
 const (
-	LevelDebug Level = iota
+	LevelTrace Level = iota
+	LevelDebug
 	LevelInfo
 	LevelWarn
 	LevelError
@@ -18,6 +19,7 @@ const (
 )
 
 const (
+	LevelTraceName = "TRACE"
 	LevelDebugName = "DEBUG"
 	LevelInfoName  = "INFO"
 	LevelWarnName  = "WARN"
@@ -33,6 +35,7 @@ type Logger struct {
 	isWarn  bool
 	isInfo  bool
 	isDebug bool
+	isTrace bool
 }
 
 var logger *Logger
@@ -78,6 +81,7 @@ func (this *Logger) SetLevel(level Level) *Logger {
 	this.isWarn = level <= LevelWarn
 	this.isInfo = level <= LevelInfo
 	this.isDebug = level <= LevelDebug
+	this.isTrace = level <= LevelTrace
 	return this
 }
 
@@ -115,9 +119,44 @@ func (this *Logger) IsDebug() bool {
 	return this.isDebug
 }
 
+func IsTrace() bool { return logger.IsTrace() }
+func (this *Logger) IsTrace() bool {
+	return this.isTrace
+}
+
 // ----------------------------------------------------------------------------
 // Public XXX() routines for leveled logging.
 // ----------------------------------------------------------------------------
+
+// --- Trace ------------------------------------------------------------------
+
+func Trace(v ...interface{}) *Logger {
+	if logger.IsTrace() {
+		logger.printf(LevelTraceName, noFormat, v...)
+	}
+	return logger
+}
+
+func (this *Logger) Trace(v ...interface{}) *Logger {
+	if this.isTrace {
+		this.printf(LevelTraceName, noFormat, v...)
+	}
+	return this
+}
+
+func Tracef(format string, v ...interface{}) *Logger {
+	if logger.IsTrace() {
+		logger.printf(LevelTraceName, format, v...)
+	}
+	return logger
+}
+
+func (this *Logger) Tracef(format string, v ...interface{}) *Logger {
+	if this.isTrace {
+		this.printf(LevelTraceName, format, v...)
+	}
+	return this
+}
 
 // --- Debug ------------------------------------------------------------------
 

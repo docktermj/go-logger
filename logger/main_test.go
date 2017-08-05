@@ -12,6 +12,7 @@ import (
  */
 
 func TestLevels(test *testing.T) {
+	assert.True(test, LevelTrace < LevelDebug, "Trace")
 	assert.True(test, LevelDebug < LevelInfo, "Debug")
 	assert.True(test, LevelInfo < LevelWarn, "Info")
 	assert.True(test, LevelWarn < LevelError, "Warn")
@@ -19,8 +20,20 @@ func TestLevels(test *testing.T) {
 	assert.True(test, LevelFatal < LevelPanic, "Fatal")
 }
 
+func TestIsTrace(test *testing.T) {
+	SetLevel(LevelTrace)
+	assert.True(test, IsTrace(), "Trace")
+	assert.True(test, IsDebug(), "Debug")
+	assert.True(test, IsInfo(), "Info")
+	assert.True(test, IsWarn(), "Warn")
+	assert.True(test, IsError(), "Error")
+	assert.True(test, IsFatal(), "Fatal")
+	assert.True(test, IsPanic(), "Panic")
+}
+
 func TestIsDebug(test *testing.T) {
 	SetLevel(LevelDebug)
+	assert.False(test, IsTrace(), "Trace")
 	assert.True(test, IsDebug(), "Debug")
 	assert.True(test, IsInfo(), "Info")
 	assert.True(test, IsWarn(), "Warn")
@@ -31,6 +44,7 @@ func TestIsDebug(test *testing.T) {
 
 func TestIsInfo(test *testing.T) {
 	SetLevel(LevelInfo)
+	assert.False(test, IsTrace(), "Trace")
 	assert.False(test, IsDebug(), "Debug")
 	assert.True(test, IsInfo(), "Info")
 	assert.True(test, IsWarn(), "Warn")
@@ -41,6 +55,7 @@ func TestIsInfo(test *testing.T) {
 
 func TestIsWarn(test *testing.T) {
 	SetLevel(LevelWarn)
+	assert.False(test, IsTrace(), "Trace")
 	assert.False(test, IsDebug(), "Debug")
 	assert.False(test, IsInfo(), "Info")
 	assert.True(test, IsWarn(), "Warn")
@@ -51,6 +66,7 @@ func TestIsWarn(test *testing.T) {
 
 func TestIsError(test *testing.T) {
 	SetLevel(LevelError)
+	assert.False(test, IsTrace(), "Trace")
 	assert.False(test, IsDebug(), "Debug")
 	assert.False(test, IsInfo(), "Info")
 	assert.False(test, IsWarn(), "Warn")
@@ -61,6 +77,7 @@ func TestIsError(test *testing.T) {
 
 func TestIsFatal(test *testing.T) {
 	SetLevel(LevelFatal)
+	assert.False(test, IsTrace(), "Trace")
 	assert.False(test, IsDebug(), "Debug")
 	assert.False(test, IsInfo(), "Info")
 	assert.False(test, IsWarn(), "Warn")
@@ -71,12 +88,19 @@ func TestIsFatal(test *testing.T) {
 
 func TestIsPanic(test *testing.T) {
 	SetLevel(LevelPanic)
+	assert.False(test, IsTrace(), "Trace")
 	assert.False(test, IsDebug(), "Debug")
 	assert.False(test, IsInfo(), "Info")
 	assert.False(test, IsWarn(), "Warn")
 	assert.False(test, IsError(), "Error")
 	assert.False(test, IsFatal(), "Fatal")
 	assert.True(test, IsPanic(), "Panic")
+}
+
+func TestTrace(test *testing.T) {
+	SetLevel(LevelTrace)
+	assert.NotZero(test, Trace("test"), "string")
+	assert.NotZero(test, Tracef("test %s", "something"), "format")
 }
 
 func TestDebug(test *testing.T) {
@@ -104,8 +128,8 @@ func TestError(test *testing.T) {
 }
 
 func TestFluentInterface(test *testing.T) {
-	SetLevel(LevelDebug)
-	Debug("debug").Info("info").Warn("warn").Error("error")
+	SetLevel(LevelTrace)
+	Trace("trace").Debug("debug").Info("info").Warn("warn").Error("error")
 }
 
 func TestVaradic(test *testing.T) {

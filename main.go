@@ -26,6 +26,10 @@ func main() {
 
 	// Use the log and logger interchangeably
 
+	log.Println("Test Trace")
+	logger.Trace("trace prints")
+	logger.Tracef("trace A: %s B: %s C: %d", "aaa", "bbb", 35)
+
 	log.Println("Test Debug")
 	logger.Debug("debug prints")
 	logger.Debugf("debug A: %s B: %s C: %d", "aaa", "bbb", 35)
