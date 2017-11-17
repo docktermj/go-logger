@@ -243,7 +243,7 @@ func Warnf(format string, v ...interface{}) *Logger {
 
 func (this *Logger) Warnf(format string, v ...interface{}) *Logger {
 	if this.isWarn {
-		this.printf(LevelDebugName, format, v...)
+		this.printf(LevelWarnName, format, v...)
 	}
 	return this
 }
