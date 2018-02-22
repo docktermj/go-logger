@@ -213,7 +213,7 @@ func Infof(format string, v ...interface{}) *Logger {
 
 func (this *Logger) Infof(format string, v ...interface{}) *Logger {
 	if this.isInfo {
-		this.printf(LevelDebugName, format, v...)
+		this.printf(LevelInfoName, format, v...)
 	}
 	return this
 }
