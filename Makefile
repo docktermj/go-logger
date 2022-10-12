@@ -5,11 +5,31 @@ PROGRAM_NAME := $(shell basename `git rev-parse --show-toplevel`)
 BUILD_VERSION := $(shell git describe --always --tags --abbrev=0 --dirty)
 BUILD_TAG := $(shell git describe --always --tags --abbrev=0)
 BUILD_ITERATION := $(shell git log $(BUILD_TAG)..HEAD --oneline | wc -l | sed -e 's/^[ \t]*//')
-
+GO_PACKAGE_NAME := $(shell echo $(GIT_REMOTE_URL) | sed -e 's|^git@github.com:|github.com/|' -e 's|\.git$$||')
 
 # The first "make" target runs as default.
+
 .PHONY: default
-default: build-local
+default: help
+
+# -----------------------------------------------------------------------------
+# Build
+# -----------------------------------------------------------------------------
+
+.PHONY: dependencies
+dependencies:
+	@go get -u ./...
+	@go get -t -u ./...
+	@go mod tidy
+
+# -----------------------------------------------------------------------------
+# Test
+# -----------------------------------------------------------------------------
+
+.PHONY: test
+test:
+	@go test -v
+
 
 # -----------------------------------------------------------------------------
 # Local development
@@ -29,9 +49,15 @@ test-local:
 # Utility targets
 # -----------------------------------------------------------------------------
 
-.PHONY: dependencies
-dependencies:
-	go get -u github.com/stretchr/testify/assert
+.PHONY: clean
+clean:
+	@go clean -cache
+
+.PHONY: print-make-variables
+print-make-variables:
+	@$(foreach V,$(sort $(.VARIABLES)), \
+	   $(if $(filter-out environment% default automatic, \
+	   $(origin $V)),$(warning $V=$($V) ($(value $V)))))
 
 
 .PHONY: help
