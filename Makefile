@@ -5,7 +5,6 @@ PROGRAM_NAME := $(shell basename `git rev-parse --show-toplevel`)
 BUILD_VERSION := $(shell git describe --always --tags --abbrev=0 --dirty)
 BUILD_TAG := $(shell git describe --always --tags --abbrev=0)
 BUILD_ITERATION := $(shell git log $(BUILD_TAG)..HEAD --oneline | wc -l | sed -e 's/^[ \t]*//')
-GO_PACKAGE_NAME := $(shell echo $(GIT_REMOTE_URL) | sed -e 's|^git@github.com:|github.com/|' -e 's|\.git$$||')
 
 # The first "make" target runs as default.
 
