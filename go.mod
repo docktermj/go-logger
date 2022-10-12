@@ -1,4 +1,4 @@
-module go-logger
+module github.com/docktermj/logger
 
 go 1.19
 
