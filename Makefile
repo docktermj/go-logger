@@ -8,8 +8,28 @@ BUILD_ITERATION := $(shell git log $(BUILD_TAG)..HEAD --oneline | wc -l | sed -e
 
 
 # The first "make" target runs as default.
+
 .PHONY: default
-default: build-local
+default: help
+
+# -----------------------------------------------------------------------------
+# Build
+# -----------------------------------------------------------------------------
+
+.PHONY: dependencies
+dependencies:
+	@go get -u ./...
+	@go get -t -u ./...
+	@go mod tidy
+
+# -----------------------------------------------------------------------------
+# Test
+# -----------------------------------------------------------------------------
+
+.PHONY: test
+test:
+	@go test -v
+
 
 # -----------------------------------------------------------------------------
 # Local development
@@ -29,9 +49,15 @@ test-local:
 # Utility targets
 # -----------------------------------------------------------------------------
 
-.PHONY: dependencies
-dependencies:
-	go get -u github.com/stretchr/testify/assert
+.PHONY: clean
+clean:
+	@go clean -cache
+
+.PHONY: print-make-variables
+print-make-variables:
+	@$(foreach V,$(sort $(.VARIABLES)), \
+	   $(if $(filter-out environment% default automatic, \
+	   $(origin $V)),$(warning $V=$($V) ($(value $V)))))
 
 
 .PHONY: help
