@@ -39,7 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed in 1.0.1
 
-- Method signatures migrated from `string` to `interface{}`
+- Added varadic parameters by migrating from `string` to `interface{}`
 
 ## [1.0.0] - 2017-07-22
 
