@@ -54,7 +54,7 @@ func New() *Logger {
 // Internal methods
 // ----------------------------------------------------------------------------
 
-func (this *Logger) printf(debugLevelName string, format string, v ...interface{}) *Logger {
+func (thisLogger *Logger) printf(debugLevelName string, format string, v ...interface{}) *Logger {
 	var message string
 	calldepth := 3
 	if format == noFormat {
@@ -66,7 +66,7 @@ func (this *Logger) printf(debugLevelName string, format string, v ...interface{
 		message = fmt.Sprintf(debugLevelName+" "+format, v...)
 	}
 	log.Output(calldepth, message)
-	return this
+	return thisLogger
 }
 
 // ----------------------------------------------------------------------------
@@ -74,15 +74,15 @@ func (this *Logger) printf(debugLevelName string, format string, v ...interface{
 // ----------------------------------------------------------------------------
 
 func SetLevel(level Level) *Logger { return logger.SetLevel(level) }
-func (this *Logger) SetLevel(level Level) *Logger {
-	this.isPanic = level <= LevelPanic
-	this.isFatal = level <= LevelFatal
-	this.isError = level <= LevelError
-	this.isWarn = level <= LevelWarn
-	this.isInfo = level <= LevelInfo
-	this.isDebug = level <= LevelDebug
-	this.isTrace = level <= LevelTrace
-	return this
+func (thisLogger *Logger) SetLevel(level Level) *Logger {
+	thisLogger.isPanic = level <= LevelPanic
+	thisLogger.isFatal = level <= LevelFatal
+	thisLogger.isError = level <= LevelError
+	thisLogger.isWarn = level <= LevelWarn
+	thisLogger.isInfo = level <= LevelInfo
+	thisLogger.isDebug = level <= LevelDebug
+	thisLogger.isTrace = level <= LevelTrace
+	return thisLogger
 }
 
 // ----------------------------------------------------------------------------
@@ -90,38 +90,38 @@ func (this *Logger) SetLevel(level Level) *Logger {
 // ----------------------------------------------------------------------------
 
 func IsPanic() bool { return logger.IsPanic() }
-func (this *Logger) IsPanic() bool {
-	return this.isPanic
+func (thisLogger *Logger) IsPanic() bool {
+	return thisLogger.isPanic
 }
 
 func IsFatal() bool { return logger.IsFatal() }
-func (this *Logger) IsFatal() bool {
-	return this.isFatal
+func (thisLogger *Logger) IsFatal() bool {
+	return thisLogger.isFatal
 }
 
 func IsError() bool { return logger.IsError() }
-func (this *Logger) IsError() bool {
-	return this.isError
+func (thisLogger *Logger) IsError() bool {
+	return thisLogger.isError
 }
 
 func IsWarn() bool { return logger.IsWarn() }
-func (this *Logger) IsWarn() bool {
-	return this.isWarn
+func (thisLogger *Logger) IsWarn() bool {
+	return thisLogger.isWarn
 }
 
 func IsInfo() bool { return logger.IsInfo() }
-func (this *Logger) IsInfo() bool {
-	return this.isInfo
+func (thisLogger *Logger) IsInfo() bool {
+	return thisLogger.isInfo
 }
 
 func IsDebug() bool { return logger.IsDebug() }
-func (this *Logger) IsDebug() bool {
-	return this.isDebug
+func (thisLogger *Logger) IsDebug() bool {
+	return thisLogger.isDebug
 }
 
 func IsTrace() bool { return logger.IsTrace() }
-func (this *Logger) IsTrace() bool {
-	return this.isTrace
+func (thisLogger *Logger) IsTrace() bool {
+	return thisLogger.isTrace
 }
 
 // ----------------------------------------------------------------------------
@@ -137,11 +137,11 @@ func Trace(v ...interface{}) *Logger {
 	return logger
 }
 
-func (this *Logger) Trace(v ...interface{}) *Logger {
-	if this.isTrace {
-		this.printf(LevelTraceName, noFormat, v...)
+func (thisLogger *Logger) Trace(v ...interface{}) *Logger {
+	if thisLogger.isTrace {
+		thisLogger.printf(LevelTraceName, noFormat, v...)
 	}
-	return this
+	return thisLogger
 }
 
 func Tracef(format string, v ...interface{}) *Logger {
@@ -151,11 +151,11 @@ func Tracef(format string, v ...interface{}) *Logger {
 	return logger
 }
 
-func (this *Logger) Tracef(format string, v ...interface{}) *Logger {
-	if this.isTrace {
-		this.printf(LevelTraceName, format, v...)
+func (thisLogger *Logger) Tracef(format string, v ...interface{}) *Logger {
+	if thisLogger.isTrace {
+		thisLogger.printf(LevelTraceName, format, v...)
 	}
-	return this
+	return thisLogger
 }
 
 // --- Debug ------------------------------------------------------------------
@@ -167,11 +167,11 @@ func Debug(v ...interface{}) *Logger {
 	return logger
 }
 
-func (this *Logger) Debug(v ...interface{}) *Logger {
-	if this.isDebug {
-		this.printf(LevelDebugName, noFormat, v...)
+func (thisLogger *Logger) Debug(v ...interface{}) *Logger {
+	if thisLogger.isDebug {
+		thisLogger.printf(LevelDebugName, noFormat, v...)
 	}
-	return this
+	return thisLogger
 }
 
 func Debugf(format string, v ...interface{}) *Logger {
@@ -181,11 +181,11 @@ func Debugf(format string, v ...interface{}) *Logger {
 	return logger
 }
 
-func (this *Logger) Debugf(format string, v ...interface{}) *Logger {
-	if this.isDebug {
-		this.printf(LevelDebugName, format, v...)
+func (thisLogger *Logger) Debugf(format string, v ...interface{}) *Logger {
+	if thisLogger.isDebug {
+		thisLogger.printf(LevelDebugName, format, v...)
 	}
-	return this
+	return thisLogger
 }
 
 // --- Info -------------------------------------------------------------------
@@ -197,11 +197,11 @@ func Info(v ...interface{}) *Logger {
 	return logger
 }
 
-func (this *Logger) Info(v ...interface{}) *Logger {
-	if this.isInfo {
-		this.printf(LevelInfoName, noFormat, v...)
+func (thisLogger *Logger) Info(v ...interface{}) *Logger {
+	if thisLogger.isInfo {
+		thisLogger.printf(LevelInfoName, noFormat, v...)
 	}
-	return this
+	return thisLogger
 }
 
 func Infof(format string, v ...interface{}) *Logger {
@@ -211,11 +211,11 @@ func Infof(format string, v ...interface{}) *Logger {
 	return logger
 }
 
-func (this *Logger) Infof(format string, v ...interface{}) *Logger {
-	if this.isInfo {
-		this.printf(LevelInfoName, format, v...)
+func (thisLogger *Logger) Infof(format string, v ...interface{}) *Logger {
+	if thisLogger.isInfo {
+		thisLogger.printf(LevelInfoName, format, v...)
 	}
-	return this
+	return thisLogger
 }
 
 // --- Warn -------------------------------------------------------------------
@@ -227,11 +227,11 @@ func Warn(v ...interface{}) *Logger {
 	return logger
 }
 
-func (this *Logger) Warn(v ...interface{}) *Logger {
-	if this.isWarn {
-		this.printf(LevelWarnName, noFormat, v...)
+func (thisLogger *Logger) Warn(v ...interface{}) *Logger {
+	if thisLogger.isWarn {
+		thisLogger.printf(LevelWarnName, noFormat, v...)
 	}
-	return this
+	return thisLogger
 }
 
 func Warnf(format string, v ...interface{}) *Logger {
@@ -241,11 +241,11 @@ func Warnf(format string, v ...interface{}) *Logger {
 	return logger
 }
 
-func (this *Logger) Warnf(format string, v ...interface{}) *Logger {
-	if this.isWarn {
-		this.printf(LevelWarnName, format, v...)
+func (thisLogger *Logger) Warnf(format string, v ...interface{}) *Logger {
+	if thisLogger.isWarn {
+		thisLogger.printf(LevelWarnName, format, v...)
 	}
-	return this
+	return thisLogger
 }
 
 // --- Error ------------------------------------------------------------------
@@ -257,11 +257,11 @@ func Error(v ...interface{}) *Logger {
 	return logger
 }
 
-func (this *Logger) Error(v ...interface{}) *Logger {
-	if this.isError {
-		this.printf(LevelErrorName, noFormat, v...)
+func (thisLogger *Logger) Error(v ...interface{}) *Logger {
+	if thisLogger.isError {
+		thisLogger.printf(LevelErrorName, noFormat, v...)
 	}
-	return this
+	return thisLogger
 }
 
 func Errorf(format string, v ...interface{}) *Logger {
@@ -271,11 +271,11 @@ func Errorf(format string, v ...interface{}) *Logger {
 	return logger
 }
 
-func (this *Logger) Errorf(format string, v ...interface{}) *Logger {
-	if this.isError {
-		this.printf(LevelErrorName, format, v...)
+func (thisLogger *Logger) Errorf(format string, v ...interface{}) *Logger {
+	if thisLogger.isError {
+		thisLogger.printf(LevelErrorName, format, v...)
 	}
-	return this
+	return thisLogger
 }
 
 // --- Fatal ------------------------------------------------------------------
@@ -288,12 +288,12 @@ func Fatal(v ...interface{}) *Logger {
 	return logger
 }
 
-func (this *Logger) Fatal(v ...interface{}) *Logger {
-	if this.isFatal {
-		this.printf(LevelFatalName, noFormat, v...)
+func (thisLogger *Logger) Fatal(v ...interface{}) *Logger {
+	if thisLogger.isFatal {
+		thisLogger.printf(LevelFatalName, noFormat, v...)
 		log.Fatal("")
 	}
-	return this
+	return thisLogger
 }
 
 func Fatalf(format string, v ...interface{}) *Logger {
@@ -304,12 +304,12 @@ func Fatalf(format string, v ...interface{}) *Logger {
 	return logger
 }
 
-func (this *Logger) Fatalf(format string, v ...interface{}) *Logger {
-	if this.isFatal {
-		this.printf(LevelFatalName, format, v...)
+func (thisLogger *Logger) Fatalf(format string, v ...interface{}) *Logger {
+	if thisLogger.isFatal {
+		thisLogger.printf(LevelFatalName, format, v...)
 		log.Fatal("")
 	}
-	return this
+	return thisLogger
 }
 
 // --- Panic ------------------------------------------------------------------
@@ -322,12 +322,12 @@ func Panic(v ...interface{}) *Logger {
 	return logger
 }
 
-func (this *Logger) Panic(v ...interface{}) *Logger {
-	if this.isPanic {
-		this.printf(LevelPanicName, noFormat, v...)
+func (thisLogger *Logger) Panic(v ...interface{}) *Logger {
+	if thisLogger.isPanic {
+		thisLogger.printf(LevelPanicName, noFormat, v...)
 		log.Panic("")
 	}
-	return this
+	return thisLogger
 }
 
 func Panicf(format string, v ...interface{}) *Logger {
@@ -338,10 +338,10 @@ func Panicf(format string, v ...interface{}) *Logger {
 	return logger
 }
 
-func (this *Logger) Panicf(format string, v ...interface{}) *Logger {
-	if this.isPanic {
-		this.printf(LevelPanicName, format, v...)
+func (thisLogger *Logger) Panicf(format string, v ...interface{}) *Logger {
+	if thisLogger.isPanic {
+		thisLogger.printf(LevelPanicName, format, v...)
 		log.Panic("")
 	}
-	return this
+	return thisLogger
 }
